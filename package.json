@@ -1,0 +1,14 @@
+{
+  "name": "libellum",
+  "version": "1.0.0",
+  "description": "Interface of comunication with Libellum",
+  "main": "src/libellum.js",
+  "scripts": {
+
+  },
+  "keywords": [
+    "libellum"
+  ],
+  "author": "Pedro Augusto da Silva Soares <contato@pedrosoares.net> (https://www.pedrosoares.net)",
+  "license": "MIT"
+}
