@@ -7,6 +7,7 @@ var Libellum = function () {
     /**
      *  The variable bellow is used to cache de callback functions
      */
+    var connect_callback = null;
     var onerror_callback = null;
     var sign_callback = null;
     var request_certificate_callback = null;
@@ -16,16 +17,20 @@ var Libellum = function () {
      */
     var connection = null;
 
-    this.connect = function () {
+    this.connect = function (callback=null) {
         if(this.is_connected()) this.notify({ "error": "Already connected!" });
+
+        connect_callback = callback;
 
         //protocol compatible = "RFC6455"
         connection = new WebSocket("ws://localhost:9002");
         connection.onopen = function (event) {
             is_disconecting = false;
+            if(connect_callback != null)
+                connect_callback(event);
         };
         connection.onerror = function (event) {
-            onerror_callback(event);
+            $this.notify(event);
         };
         connection.onclose = function (p1) {
             if(!is_disconecting){
@@ -42,7 +47,7 @@ var Libellum = function () {
         if(onerror_callback != null){
             onerror_callback(message);
         }else{
-            throw onerror_callback;
+            throw JSON.stringify(message);
         }
     };
 
@@ -148,3 +153,5 @@ var Libellum = function () {
     };
 
 };
+
+module.exports = Libellum;
